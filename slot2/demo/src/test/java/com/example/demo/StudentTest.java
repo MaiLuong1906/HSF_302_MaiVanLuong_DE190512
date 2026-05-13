@@ -36,15 +36,20 @@ public class StudentTest {
 
     @Test
     public void testUpdateStudent() {
-        // 1. Tạo sẵn dữ liệu mẫu
         Student s = new Student("Gốc", "goc@fpt.edu.vn", 19);
         entityManager.persist(s);
-        entityManager.flush();
 
-        studentService.updateStudent(s.getId(), "Nguyễn Văn A Updated", "a.updated@fpt.edu.vn", 22);
+        entityManager.flush();
+        Long id = s.getId();
+
         entityManager.clear();
 
-        Student updatedStudent = entityManager.find(Student.class, s.getId());
+        studentService.updateStudent(id, "Nguyễn Văn A Updated", "a.updated@fpt.edu.vn", 22);
+
+        entityManager.flush();
+        entityManager.clear();
+
+        Student updatedStudent = entityManager.find(Student.class, id);
 
         assertNotNull(updatedStudent);
         assertEquals("Nguyễn Văn A Updated", updatedStudent.getFullName());
